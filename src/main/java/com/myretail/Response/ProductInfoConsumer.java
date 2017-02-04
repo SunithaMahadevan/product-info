@@ -5,30 +5,31 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductInfoConsumer {
 
-    private Integer tcin;
-    private String title;
+    private Product product;
+    private String error_message;
 
-    public Integer getTcin() {
-        return tcin;
+
+    public Product getProduct() {
+        return product;
     }
 
-    public void setTcin(Integer tcin) {
-        this.tcin = tcin;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public String getTitle() {
-        return title;
+    public String getError_message() {
+        return error_message;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setError_message(String error_message) {
+        this.error_message = error_message;
     }
 
     @Override
     public String toString() {
         return "ProductInfoConsumer{" +
-                "tcin=" + tcin +
-                ", title='" + title + '\'' +
+                "product=" + product +
+                ", error_message='" + error_message + '\'' +
                 '}';
     }
 

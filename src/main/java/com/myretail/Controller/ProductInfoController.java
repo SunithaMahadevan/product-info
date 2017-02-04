@@ -1,20 +1,39 @@
 package com.myretail.Controller;
 
-import com.myretail.Response.ProductDescriptionResponse;
+
+import com.myretail.Response.ProductInfoConsumer;
+import com.myretail.Service.ProductInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin
 @RestController
+@RequestMapping("/product_info")
+
 
 public class ProductInfoController {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(ProductInfoController.class);
+    @Autowired
+    ProductInfoService productInfoService;
 
-    RestTemplate restTemplate = new RestTemplate();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductInfoController.class);
 
-    ProductDescriptionResponse productDescriptionResponse = restTemplate.getForObject("http://redsky.target.com/v1/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics", ProductDescriptionResponse.class);
+    @ResponseBody
+    @RequestMapping (value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ProductInfoConsumer getProductData (@PathVariable("id") Integer id)  {
 
-    LOGGER.
+        LOGGER.info("ENTERING CONTROLLER....");
+        ProductInfoConsumer productInfoConsumer = productInfoService.getProductDescription(id);
+
+        if (productInfoConsumer == null) {
+
+        }
+
+        return productInfoConsumer;
+
+    }
+
 }
