@@ -1,8 +1,7 @@
-package com.myretail.Response;
+package com.myretail.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.myretail.Model.Product;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductInfo {

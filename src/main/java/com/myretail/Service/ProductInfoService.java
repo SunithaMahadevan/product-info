@@ -2,7 +2,8 @@ package com.myretail.Service;
 
 import com.myretail.Model.ItemPrice;
 import com.myretail.Repository.ProductRepository;
-import com.myretail.Response.ProductInfo;
+import com.myretail.Model.ProductInfo;
+import com.myretail.Response.ProductInfoResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,50 @@ public class ProductInfoService {
 
     RestTemplate restTemplate = new RestTemplate();
 
+
+    public ProductInfoResponse getProductDetails (String id) {
+
+        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
+
+        if (id == null) {
+            productInfoResponse.setErrorMessage("404 - Not Found");
+        }
+        else {
+
+            ProductInfo productInfo = getProductDescription(id);
+
+            if (productInfo.getErrorMessage() != null) {
+                if (productInfo.getErrorMessage().contains("403")) {
+                    productInfo.setErrorMessage("403 Forbidden: This item cannot be retrieved via this guest-facing endpoint state");
+                }
+                productInfoResponse.setErrorMessage(productInfo.getErrorMessage());
+            }
+            else {
+                ItemPrice itemPriceDetails = getProductPrice(productInfo);
+
+                ItemPrice itemPriceResponse = new ItemPrice();
+                if(itemPriceDetails != null) {
+                    productInfoResponse.setTcin(productInfo.getProduct().getItem().getTcin());
+                    productInfoResponse.setName(productInfo.getProduct().getItem().getProduct_description().getTitle());
+                    itemPriceResponse.setPrice(itemPriceDetails.getPrice());
+                    itemPriceResponse.setCurrency(itemPriceDetails.getCurrency());
+                    productInfoResponse.setItemPrice(itemPriceResponse);
+                    productInfoResponse.setErrorMessage(null);
+                }
+                else {
+                    productInfoResponse.setTcin(productInfo.getProduct().getItem().getTcin());
+                    productInfoResponse.setName(productInfo.getProduct().getItem().getProduct_description().getTitle());
+                    productInfoResponse.setErrorMessage("ERROR: Item Price information is not available.");
+                }
+
+            }
+
+        }
+        return productInfoResponse;
+    }
+
+
+
     public ProductInfo getProductDescription (String id) {
 
         ProductInfo productInfo = new ProductInfo();
@@ -33,7 +78,7 @@ public class ProductInfoService {
             productInfo.setErrorMessage(ex.toString());
         }
 
-        LOGGER.info(productInfo.toString());
+        LOGGER.info("getProductDescription:" + productInfo.toString());
         return productInfo;
     }
 

@@ -9,8 +9,6 @@ public class Product {
     @JsonProperty("item")
     private Item item;
 
-//    private String errorMessage;
-
     public Item getItem() {
         return item;
     }
@@ -19,11 +17,5 @@ public class Product {
         this.item = item;
     }
 
-//    public String getErrorMessage() {
-//        return errorMessage;
-//    }
-//
-//    public void setErrorMessage(String errorMessage) {
-//        this.errorMessage = errorMessage;
-//    }
+
 }

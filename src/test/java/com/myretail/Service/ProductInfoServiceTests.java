@@ -1,5 +1,6 @@
 package com.myretail.Service;
 
+import com.myretail.Model.ProductInfo;
 import com.myretail.Response.ProductInfoResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,24 +24,24 @@ public class ProductInfoServiceTests {
     @Test
     public void TC0001_API_nullProductIDInput() {
 
-        ProductInfoResponse productInfoResponse = productInfoService.getProductDescription(null);
-        assertNull(productInfoResponse.getProduct());
-        assertEquals(productInfoResponse.getError_message(),"404 - Page not found");
+        ProductInfo productInfo = productInfoService.getProductDescription(null);
+        assertNull(productInfo.getProduct());
+        assertEquals(productInfoResponse.getErrorMessage(),"404 - Page not found");
     }
 
     @Test
     public void TC0002_API_validProductIDInput() {
 
-        ProductInfoResponse productInfoResponse = productInfoService.getProductDescription(13860428);
+        ProductInfo productInfo = productInfoService.getProductDescription("13860428");
      //   assertEquals(productInfoResponse.getProduct().getItem().getTcin(),13860428);
-        assertNull(productInfoResponse.getError_message());
+        assertNull(productInfo.getErrorMessage());
     }
 
     @Test
     public void TC0003_API_invalidProductIDInput() {
-        ProductInfoResponse productInfoResponse = productInfoService.getProductDescription(15117729);
-        assertNull(productInfoResponse.getProduct());
-        assertTrue(productInfoResponse.getError_message().contains("403"));
+        ProductInfo productInfo = productInfoService.getProductDescription("15117729");
+        assertNull(productInfo.getProduct());
+        assertTrue(productInfo.getErrorMessage().contains("403"));
     }
 
 }
