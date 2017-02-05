@@ -1,18 +1,21 @@
-package com.myretail.Response;
+package com.myretail.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item implements Serializable {
 
+    @JsonProperty("tcin")
     private String tcin;
-    private String dpci;
-    private ProductDescription product_description;
-    private Float price;
-    private String currency;
 
+    @JsonProperty("dpci")
+    private String dpci;
+
+    @JsonProperty("product_description")
+    private ProductDescription product_description;
 
     public String getTcin() {
         return tcin;
@@ -34,24 +37,8 @@ public class Item implements Serializable {
         return product_description;
     }
 
-    public void setProduct_description(ProductDescription product_description) {
-        this.product_description = product_description;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setProduct_description(ProductDescription productDescription) {
+        this.product_description = productDescription;
     }
 
     @Override
@@ -60,8 +47,6 @@ public class Item implements Serializable {
                 "tcin='" + tcin + '\'' +
                 ", dpci='" + dpci + '\'' +
                 ", product_description=" + product_description +
-                ", price=" + price +
-                ", currency='" + currency + '\'' +
                 '}';
     }
 }

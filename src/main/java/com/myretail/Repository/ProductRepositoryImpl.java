@@ -1,40 +1,37 @@
 package com.myretail.Repository;
 
-import com.myretail.Response.Item;
+import com.myretail.Model.ItemPrice;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import java.util.Map;
 
 @Component
 public class ProductRepositoryImpl implements ProductRepository {
 
-    private static final String KEY = "Item";
-
-    private RedisTemplate<String, Item> redisTemplate;
-    private HashOperations hashOperations;
-
-    public ProductRepositoryImpl(RedisTemplate<String, Item> redisTemplate, HashOperations hashOperations) {
-        this.redisTemplate = redisTemplate;
-        this.hashOperations = hashOperations;
-    }
-
+    private static final String KEY = "ItemPrice";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 
     @Autowired
-    private ProductRepositoryImpl(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    @Qualifier("itemRedisTemplate")
+    private  RedisTemplate<String, Map<String,ItemPrice>> redisTemplate;
+
+    public ItemPrice getPrice(String tcin) {
+        String hashKey = tcin;
+        Object itemPrice = redisTemplate.opsForHash().get(KEY, hashKey);
+        LOGGER.info("Item details: " + itemPrice);
+        return itemPrice != null ? (ItemPrice) itemPrice : null;
     }
 
-    @PostConstruct
-    private void init() {
-        hashOperations = redisTemplate.opsForHash();
-    }
-
-    public Item getPrice(String tcin) {
-
-    return (Item) hashOperations.get(KEY, tcin);
+    public void updatePrice(ItemPrice itemPrice, String tcin) {
+        redisTemplate.opsForHash().put(KEY, tcin, itemPrice);
+        LOGGER.info("Update Item for price[" + itemPrice + "] success!");
+        LOGGER.info("User Hash size is : " + redisTemplate.opsForHash().size(KEY));
+        getPrice(tcin);
     }
 
 }

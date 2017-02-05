@@ -1,9 +1,8 @@
 package com.myretail.Service;
 
+import com.myretail.Model.ItemPrice;
 import com.myretail.Repository.ProductRepository;
-import com.myretail.Response.Item;
-import com.myretail.Response.Product;
-import com.myretail.Response.ProductInfoResponse;
+import com.myretail.Response.ProductInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,38 +20,29 @@ public class ProductInfoService {
 
     RestTemplate restTemplate = new RestTemplate();
 
-    public ProductInfoResponse getProductDescription (Integer id) {
+    public ProductInfo getProductDescription (String id) {
 
-        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
-        if(id != null) {
+        ProductInfo productInfo = new ProductInfo();
+        String url = "http://redsky.target.com/v1/pdp/tcin/" + id;
+        LOGGER.info(url);
+        try {
+            productInfo = restTemplate.getForObject(url, ProductInfo.class);
+        }
+        catch (HttpClientErrorException ex){
+            LOGGER.info("Exception:" + ex.toString());
+            productInfo.setErrorMessage(ex.toString());
+        }
 
-            String url = "http://redsky.target.com/v1/pdp/tcin/" + id;
-            LOGGER.info(url);
-            try {
-                productInfoResponse = restTemplate.getForObject(url, ProductInfoResponse.class);
-            }
-            catch (HttpClientErrorException ex){
-                productInfoResponse.setError_message(ex.toString());
-            }
-        }
-        else {
-            productInfoResponse.setError_message("404 - Page not found");
-        }
-        LOGGER.info(productInfoResponse.toString());
-        return productInfoResponse;
+        LOGGER.info(productInfo.toString());
+        return productInfo;
     }
 
-    public ProductInfoResponse getProductPrice (ProductInfoResponse productInfoResponse) {
 
-        Item inputItem = productInfoResponse.getProduct().getItem();
-        LOGGER.info(inputItem.toString());
 
-        Item item = productRepository.getPrice(inputItem.getTcin());
+    public ItemPrice getProductPrice (ProductInfo productInfo) {
 
-        Product product = new Product();
-        product.setItem(item);
-        productInfoResponse.setProduct(product);
-
-        return productInfoResponse;
+        String tcin = productInfo.getProduct().getItem().getTcin();
+        ItemPrice itemPrice = productRepository.getPrice(tcin);
+        return itemPrice;
     }
 }

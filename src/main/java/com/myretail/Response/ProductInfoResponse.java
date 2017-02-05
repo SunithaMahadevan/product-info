@@ -1,37 +1,63 @@
 package com.myretail.Response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.myretail.Model.ItemPrice;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductInfoResponse {
 
-    private Product product;
-    private String error_message;
+    @JsonProperty("id")
+    private String tcin;
 
+    @JsonProperty("name")
+    private String name;
 
-    public Product getProduct() {
-        return product;
+    @JsonProperty("current_price")
+    private ItemPrice itemPrice;
+
+    @JsonProperty("error_message")
+    private String errorMessage;
+
+    public String getTcin() {
+        return tcin;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setTcin(String tcin) {
+        this.tcin = tcin;
     }
 
-    public String getError_message() {
-        return error_message;
+    public String getName() {
+        return name;
     }
 
-    public void setError_message(String error_message) {
-        this.error_message = error_message;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ItemPrice getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(ItemPrice itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     @Override
     public String toString() {
         return "ProductInfoResponse{" +
-                "product=" + product +
-                ", error_message='" + error_message + '\'' +
+                "tcin='" + tcin + '\'' +
+                ", name='" + name + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", errorMessage='" + errorMessage + '\'' +
                 '}';
     }
-
-
 }

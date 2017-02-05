@@ -1,8 +1,8 @@
 package com.myretail.Controller;
 
 
-import com.myretail.Response.Item;
-import com.myretail.Response.Product;
+import com.myretail.Model.Item;
+import com.myretail.Model.Product;
 import com.myretail.Response.ProductInfoResponse;
 import com.myretail.Service.ProductInfoService;
 import org.junit.Test;

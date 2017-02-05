@@ -1,10 +1,10 @@
 package com.myretail.Repository;
 
-import com.myretail.Response.Item;
+import com.myretail.Model.ItemPrice;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository {
 
-    Item getPrice(String tcin);
+    ItemPrice getPrice(String tcin);
 }
