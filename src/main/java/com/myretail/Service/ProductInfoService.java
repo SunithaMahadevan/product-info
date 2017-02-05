@@ -16,20 +16,28 @@ public class ProductInfoService {
 
     public ProductInfoConsumer getProductDescription (Integer id) {
 
-        String url = "http://redsky.target.com/v1/pdp/tcin/" + id;
-
-        LOGGER.info(url);
         ProductInfoConsumer productInfoConsumer = new ProductInfoConsumer();
 
-        try {
+        if(id != null) {
 
-            productInfoConsumer = restTemplate.getForObject(url, ProductInfoConsumer.class);
+            String url = "http://redsky.target.com/v1/pdp/tcin/" + id;
+
+            LOGGER.info(url);
+
+            try {
+
+                productInfoConsumer = restTemplate.getForObject(url, ProductInfoConsumer.class);
+            }
+
+            catch (HttpClientErrorException ex){
+
+                productInfoConsumer.setError_message(ex.toString());
+
+            }
         }
 
-        catch (HttpClientErrorException ex){
-
-            productInfoConsumer.setError_message(ex.toString());
-
+        else {
+            productInfoConsumer.setError_message("404 - Page not found");
         }
 
         LOGGER.info(productInfoConsumer.toString());

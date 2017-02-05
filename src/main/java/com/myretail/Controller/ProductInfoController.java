@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/product_info")
+@RequestMapping("/product_info/v1")
 
 
 public class ProductInfoController {
@@ -25,11 +25,10 @@ public class ProductInfoController {
     @RequestMapping (value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ProductInfoConsumer getProductData (@PathVariable("id") Integer id)  {
 
-        LOGGER.info("ENTERING CONTROLLER....");
         ProductInfoConsumer productInfoConsumer = productInfoService.getProductDescription(id);
 
-        if (productInfoConsumer == null) {
-
+        if (productInfoConsumer.getError_message() != null && productInfoConsumer.getError_message().contains("403")) {
+                productInfoConsumer.setError_message("403 Forbidden");
         }
 
         return productInfoConsumer;
