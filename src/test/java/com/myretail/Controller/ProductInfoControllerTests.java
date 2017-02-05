@@ -3,7 +3,7 @@ package com.myretail.Controller;
 
 import com.myretail.Response.Item;
 import com.myretail.Response.Product;
-import com.myretail.Response.ProductInfoConsumer;
+import com.myretail.Response.ProductInfoResponse;
 import com.myretail.Service.ProductInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,16 +34,16 @@ public class ProductInfoControllerTests {
     @Test
     public void TC0001_getProductInfo() throws Exception {
 
-        ProductInfoConsumer productInfoConsumer = new ProductInfoConsumer();
+        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
         Product product = new Product();
         Item item = new Item();
 
         item.setTcin(13860428);
         product.setItem(item);
-        productInfoConsumer.setProduct(product);
-        productInfoConsumer.setError_message(null);
+        productInfoResponse.setProduct(product);
+        productInfoResponse.setError_message(null);
 
-        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoConsumer);
+        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoResponse);
 
         mvc.perform(MockMvcRequestBuilders.get("/product_info/v1/13860428").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -57,11 +57,11 @@ public class ProductInfoControllerTests {
     @Test
     public void TC0002_productNotFound() throws Exception {
 
-        ProductInfoConsumer productInfoConsumer = new ProductInfoConsumer();
+        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
 
-        productInfoConsumer.setError_message("org.springframework.web.client.HttpClientErrorException: 403 Forbidden");
+        productInfoResponse.setError_message("org.springframework.web.client.HttpClientErrorException: 403 Forbidden");
 
-        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoConsumer);
+        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoResponse);
 
         mvc.perform(MockMvcRequestBuilders.get("/product_info/v1/15117729").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -74,11 +74,11 @@ public class ProductInfoControllerTests {
     @Test
     public void TC0003_ProductInputNotProvided() throws Exception {
 
-        ProductInfoConsumer productInfoConsumer = new ProductInfoConsumer();
+        ProductInfoResponse productInfoResponse = new ProductInfoResponse();
 
-        productInfoConsumer.setError_message("404 - Page not found");
+        productInfoResponse.setError_message("404 - Page not found");
 
-        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoConsumer);
+        given(productInfoService.getProductDescription(anyInt())).willReturn(productInfoResponse);
 
         mvc.perform(MockMvcRequestBuilders.get("/product_info/v1/15117729").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

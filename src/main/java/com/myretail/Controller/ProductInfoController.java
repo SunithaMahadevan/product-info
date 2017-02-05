@@ -1,7 +1,7 @@
 package com.myretail.Controller;
 
 
-import com.myretail.Response.ProductInfoConsumer;
+import com.myretail.Response.ProductInfoResponse;
 import com.myretail.Service.ProductInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +23,20 @@ public class ProductInfoController {
 
     @ResponseBody
     @RequestMapping (value = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ProductInfoConsumer getProductData (@PathVariable("id") Integer id)  {
+    public ProductInfoResponse getProductData (@PathVariable("id") Integer id)  {
 
-        ProductInfoConsumer productInfoConsumer = productInfoService.getProductDescription(id);
+        ProductInfoResponse productInfoResponse = productInfoService.getProductDescription(id);
 
-        if (productInfoConsumer.getError_message() != null && productInfoConsumer.getError_message().contains("403")) {
-                productInfoConsumer.setError_message("403 Forbidden");
+        if (productInfoResponse.getError_message() != null) {
+            if(productInfoResponse.getError_message().contains("403")) {
+                productInfoResponse.setError_message("403 Forbidden");
+            }
+        }
+        else {
+            productInfoResponse = productInfoService.getProductPrice(productInfoResponse);
         }
 
-        return productInfoConsumer;
+        return productInfoResponse;
 
     }
 

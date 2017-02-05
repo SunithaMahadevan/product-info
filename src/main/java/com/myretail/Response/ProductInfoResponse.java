@@ -3,7 +3,7 @@ package com.myretail.Response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductInfoConsumer {
+public class ProductInfoResponse {
 
     private Product product;
     private String error_message;
@@ -27,7 +27,7 @@ public class ProductInfoConsumer {
 
     @Override
     public String toString() {
-        return "ProductInfoConsumer{" +
+        return "ProductInfoResponse{" +
                 "product=" + product +
                 ", error_message='" + error_message + '\'' +
                 '}';
