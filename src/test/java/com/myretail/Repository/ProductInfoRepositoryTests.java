@@ -1,27 +1,22 @@
 package com.myretail.Repository;
 
+import com.myretail.Application;
 import com.myretail.Model.ItemPrice;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@ComponentScan
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
 
 public class ProductInfoRepositoryTests {
 
+    @Autowired
     private ProductRepositoryImpl repo;
-
-    @Before
-    public void setup(){
-        repo = new ProductRepositoryImpl();
-    }
 
     @Test
     public void TC0001_testGetPriceValidInput() {

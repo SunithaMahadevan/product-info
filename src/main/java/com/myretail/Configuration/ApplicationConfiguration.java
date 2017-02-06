@@ -2,7 +2,6 @@ package com.myretail.Configuration;
 
 import com.myretail.Model.ItemPrice;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,8 +11,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import java.util.Map;
 
 @Configuration
-@EnableRedisRepositories
-@ComponentScan("com.myretail")
+@EnableRedisRepositories(basePackages = "com.myretail.Repository")
+
 public class ApplicationConfiguration {
 
     @Bean
