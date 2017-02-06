@@ -20,6 +20,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Qualifier("itemRedisTemplate")
     private  RedisTemplate<String, Map<String,ItemPrice>> redisTemplate;
 
+    //GET price details from DB
     public ItemPrice getPrice(String tcin) {
         String hashKey = tcin;
         Object itemPrice = redisTemplate.opsForHash().get(KEY, hashKey);
@@ -27,6 +28,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return itemPrice != null ? (ItemPrice) itemPrice : null;
     }
 
+    //Update price information into DB
     public ItemPrice updatePrice(ItemPrice itemPrice, String tcin) {
         redisTemplate.opsForHash().put(KEY, tcin, itemPrice);
         LOGGER.info("Update Item for price[" + itemPrice + "] success!");

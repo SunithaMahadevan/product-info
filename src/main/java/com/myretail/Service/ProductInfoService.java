@@ -30,7 +30,7 @@ public class ProductInfoService {
             productInfoResponse.setErrorMessage("404 - Not Found");
         }
         else {
-
+            // Call the external API to get Product TCIN and Name
             ProductInfo productInfo = getProductDescription(id);
 
             if (productInfo.getErrorMessage() != null) {
@@ -40,9 +40,11 @@ public class ProductInfoService {
                 productInfoResponse.setErrorMessage(productInfo.getErrorMessage());
             }
             else {
+                //If the API returns data for the Product, get the price details from DB
                 ItemPrice itemPriceDetails = getProductPrice(productInfo);
 
                 ItemPrice itemPriceResponse = new ItemPrice();
+                //Combine Product description and price (from API and DB) into a single response
                 if(itemPriceDetails != null) {
                     productInfoResponse.setTcin(productInfo.getProduct().getItem().getTcin());
                     productInfoResponse.setName(productInfo.getProduct().getItem().getProduct_description().getTitle());
@@ -64,7 +66,7 @@ public class ProductInfoService {
     }
 
 
-
+    // Call external API to get TCIN and name of the product
     public ProductInfo getProductDescription (String id) {
 
         ProductInfo productInfo = new ProductInfo();
@@ -83,7 +85,7 @@ public class ProductInfoService {
     }
 
 
-
+    //Call repository to get the price information of the product from the DB
     public ItemPrice getProductPrice (ProductInfo productInfo) {
 
         String tcin = productInfo.getProduct().getItem().getTcin();
@@ -91,6 +93,7 @@ public class ProductInfoService {
         return itemPrice;
     }
 
+    //Call repository to update the price information of the product into DB
     public ProductInfoResponse updateProductPrice (ItemPrice newItemPrice, String tcin) {
 
         ItemPrice itemPrice = productRepository.updatePrice(newItemPrice, tcin);

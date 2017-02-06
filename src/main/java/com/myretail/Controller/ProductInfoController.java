@@ -22,6 +22,8 @@ public class ProductInfoController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductInfoController.class);
 
+    //GET API to get the Product details from an external API and price information from DB
+    // id refers to the TCIN of the product
     @ResponseBody
     @RequestMapping (value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ProductInfoResponse getProductData (@PathVariable("id") String id) {
@@ -32,6 +34,8 @@ public class ProductInfoController {
 
     }
 
+    //UPDATE API to update the price information of a product
+    //TCIN, New Price value and New currency code are mandatory inputs
     @ResponseBody
     @RequestMapping (value = "/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ProductInfoResponse updateProductData (@PathVariable("id") String id,
