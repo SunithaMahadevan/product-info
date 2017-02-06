@@ -1,6 +1,7 @@
 package com.myretail.Controller;
 
 
+import com.myretail.Model.ItemPrice;
 import com.myretail.Response.ProductInfoResponse;
 import com.myretail.Service.ProductInfoService;
 import org.slf4j.Logger;
@@ -30,5 +31,20 @@ public class ProductInfoController {
         return productInfoResponse;
 
     }
+
+    @ResponseBody
+    @RequestMapping (value = "/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ProductInfoResponse updateProductData (@PathVariable("id") String id,
+                                                  @RequestParam(required = true) Float price,
+                                                  @RequestParam(required = true) String currency_code) {
+
+        ItemPrice newItemPrice = new ItemPrice();
+        newItemPrice.setPrice(price);
+        newItemPrice.setCurrency(currency_code);
+        ProductInfoResponse updatePriceResponse = productInfoService.updateProductPrice(newItemPrice, id);
+
+        return updatePriceResponse;
+    }
+
 
 }

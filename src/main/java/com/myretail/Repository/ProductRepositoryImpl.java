@@ -27,11 +27,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         return itemPrice != null ? (ItemPrice) itemPrice : null;
     }
 
-    public void updatePrice(ItemPrice itemPrice, String tcin) {
+    public ItemPrice updatePrice(ItemPrice itemPrice, String tcin) {
         redisTemplate.opsForHash().put(KEY, tcin, itemPrice);
         LOGGER.info("Update Item for price[" + itemPrice + "] success!");
         LOGGER.info("User Hash size is : " + redisTemplate.opsForHash().size(KEY));
-        getPrice(tcin);
+        ItemPrice updatedPrice = getPrice(tcin);
+        return updatedPrice;
     }
-
 }

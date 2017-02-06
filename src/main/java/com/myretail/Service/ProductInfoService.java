@@ -90,4 +90,23 @@ public class ProductInfoService {
         ItemPrice itemPrice = productRepository.getPrice(tcin);
         return itemPrice;
     }
+
+    public ProductInfoResponse updateProductPrice (ItemPrice newItemPrice, String tcin) {
+
+        ItemPrice itemPrice = productRepository.updatePrice(newItemPrice, tcin);
+        ProductInfoResponse outputWUpdatedPrice = new ProductInfoResponse();
+        if(itemPrice != null){
+            outputWUpdatedPrice.setTcin(tcin);
+            outputWUpdatedPrice.setItemPrice(itemPrice);
+            outputWUpdatedPrice.setErrorMessage("****SUCCESS***fully updated Product Price Information");
+        }
+        else {
+            outputWUpdatedPrice.setTcin(tcin);
+            outputWUpdatedPrice.setErrorMessage("****ERROR*** Unable to update Product Price Information");
+        }
+
+        return outputWUpdatedPrice;
+
+    }
+
 }

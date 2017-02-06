@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository {
 
     ItemPrice getPrice(String tcin);
+
+    ItemPrice updatePrice(ItemPrice itemPrice, String tcin);
 }
