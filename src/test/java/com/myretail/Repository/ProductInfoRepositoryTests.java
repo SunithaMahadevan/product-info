@@ -32,4 +32,19 @@ public class ProductInfoRepositoryTests {
         assertEquals(output.getPrice(),expected.getPrice());
 
     }
+
+    @Test
+    public void TC0002_testUpdatePriceValidInput() {
+
+        String tcin = "13860428";
+        ItemPrice expected = new ItemPrice();
+        expected.setPrice((float)12.99);
+        expected.setCurrency("USD");
+
+        ItemPrice output = repo.updatePrice(expected, tcin);
+
+        assertEquals(output.getPrice(),expected.getPrice());
+        assertEquals(output.getCurrency(), expected.getCurrency());
+
+    }
 }

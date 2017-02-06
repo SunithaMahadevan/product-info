@@ -1,6 +1,7 @@
 package com.myretail.Controller;
 
 
+import com.myretail.Model.ItemPrice;
 import com.myretail.Response.ProductInfoResponse;
 import com.myretail.Service.ProductInfoService;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -75,6 +77,29 @@ public class ProductInfoControllerTests {
 
         mvc.perform(MockMvcRequestBuilders.get("/product_info/v1/").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    public void TC0004_updateProductPrice() throws Exception {
+
+        ProductInfoResponse updatedPriceResponse = new ProductInfoResponse();
+        updatedPriceResponse.setTcin("13860428");
+        ItemPrice updatedPrice = new ItemPrice();
+        updatedPrice.setPrice((float)5.99);
+        updatedPrice.setCurrency("USD");
+        updatedPriceResponse.setItemPrice(updatedPrice);
+        updatedPriceResponse.setErrorMessage("****SUCCESS***fully updated Product Price Information");
+
+        given(productInfoService.updateProductPrice(anyObject(),anyString())).willReturn(updatedPriceResponse);
+
+        mvc.perform(MockMvcRequestBuilders.put("/product_info/v1/13860428?price=5.99&currency_code=USD").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.id", equalTo("13860428")))
+                .andExpect(jsonPath("$.error_message", equalTo("****SUCCESS***fully updated Product Price Information")))
+                .andExpect(jsonPath("$.current_price.value", equalTo(5.99)))
+                .andExpect(jsonPath("$.current_price.currency_code", equalTo("USD")));
 
     }
 

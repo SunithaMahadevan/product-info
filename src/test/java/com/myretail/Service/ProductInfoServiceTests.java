@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -75,6 +76,23 @@ public class ProductInfoServiceTests {
         ProductInfo productInfo = productInfoService.getProductDescription("15117729");
         assertNull(productInfo.getProduct());
         assertTrue(productInfo.getErrorMessage().contains("403"));
+    }
+
+    @Test
+    public void TC0005_DB_validProductIDInput_updateProductPrice() {
+
+        String tcin = "13834456";
+        ItemPrice itemPrice = new ItemPrice();
+        itemPrice.setPrice((float)4.99);
+        itemPrice.setCurrency("USD");
+        given(productRepository.updatePrice(anyObject(),anyString())).willReturn(itemPrice);
+
+        ProductInfoResponse output = productInfoService.updateProductPrice(itemPrice, tcin);
+
+        assertEquals(output.getTcin(),tcin);
+        assertEquals(output.getItemPrice().getPrice(),(float)4.99);
+        assertEquals(output.getItemPrice().getCurrency(),"USD");
+        assertEquals(output.getErrorMessage(),"****SUCCESS***fully updated Product Price Information");
     }
 
 }
