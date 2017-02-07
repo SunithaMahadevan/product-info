@@ -32,7 +32,7 @@ Java SE Development Kit	1.8u51 (64-bit)	http://www.oracle.com/technetwork/java/j
 ## Insert data into Redis for the first time:
 
 * 1) Can be done using Redis CLI (OR)
-* 2) Run Application-Data-Insert.java in this repository
+* 2) Configure and Run ApplicationDataInsert.java as an application in IntelliJ (file provided in this repository)
 
 ## URI Example Action
 * GET	/product-info/v1/{id}	http://localhost:8080/product_info/v1/1386428	(Retrieves Item data with id) 
