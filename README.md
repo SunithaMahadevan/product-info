@@ -9,14 +9,15 @@ The repository contains source code for myretail-product-info-api RESTFUL servic
 
 ## Technology
 
-Role	Technology
-Source Control	Git
-Runtime	Java 8
-Database	Redis
-HTTP Server	Spring Boot (embedded Tomcat)
-Task Automation	Gradle
-Unit Tests	JUnit
-IDE	Intellij Idea
+Role |	Technology
+-----| ------------
+Source Control | Git
+Runtime	| Java 8
+Database |	Redis
+HTTP Server	| Spring Boot (embedded Tomcat)
+Build | Gradle
+Unit Tests | JUnit
+IDE	| Intellij Idea
 
 ## Getting Setup
 
@@ -34,8 +35,8 @@ Java SE Development Kit	1.8u51 (64-bit)	http://www.oracle.com/technetwork/java/j
 * 2) Run Application-Data-Insert.java in this repository
 
 ## URI Example Action
-* GET	/product-info/v1/{id}	http://localhost:8080/product_info/v1/1386428	Retrieves Item data with id 
-* PUT	/product-info/v1/{id}	http://localhost:8080/product_info/v1/15117729?price=5.99&currency_code=USD	Updates pricing data for id
+* GET	/product-info/v1/{id}	http://localhost:8080/product_info/v1/1386428	(Retrieves Item data with id) 
+* PUT	/product-info/v1/{id}	http://localhost:8080/product_info/v1/15117729?price=5.99&currency_code=USD	(Updates pricing data for id)
 * For PUT , please provide response param as provided in link above.(both price value and currency code are mandatory parameters)
 
     
